@@ -3,18 +3,41 @@ int StrToInt(string temp);
 
 int main()
 {
-
+	string str[2] = { "first", "second" };
+	vector <int> nums (2);
 	string temp;
-	int first = 0, second = 0;
+	int num = 0,counter = 0 ;
 	while (1)
 	{
-		cout << "Input First Number" << endl;
-		cin >> temp;
-
-		first = StrToInt(temp);
-		if ()
+		if(counter > 1)
 		{
-			break;
+			cout << nums.size();
+			for (int i = 0; i < nums.size(); i++)
+			{
+				cout << nums[i] << "\t" ;
+			}
+			cout << "\n";
+			//clear vector
+			nums.clear();
+			counter = 0;
+		}
+		else
+		{
+			cout << "Input  " << str[counter] << "  Number" << endl;
+			cin >> temp;
+			// TODO : fix, if condition is not working 
+			if (temp.compare("|")) // if temp is "|"
+			{
+				exit(-1);
+			}
+			else //if temp is not "|"
+			{
+				// change string into int
+				num = StrToInt(temp);
+				//save it to 2 sized vector 
+				nums[counter] = num;
+			}
+			counter++;
 		}
 	}
 	return 0;
