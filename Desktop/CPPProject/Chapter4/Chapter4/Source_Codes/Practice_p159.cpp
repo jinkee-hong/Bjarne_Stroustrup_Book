@@ -1,64 +1,64 @@
 #include "std_lib_facilities.h"
-int StrToInt(string temp);
-
+void PrintResult(int num1, int num2);
+void ExitOnGivenCondition(int num);
+ 
 int main()
 {
-	string str[2] = { "first", "second" };
-	vector <int> nums (2);
-	string temp;
-	int num = 0,counter = 0 ;
+	int num1 = 0, num2 = 0,toggle =0;
+	
 	while (1)
 	{
-		if(counter > 1)
+		switch (toggle)
 		{
-			cout << nums.size();
-			for (int i = 0; i < nums.size(); i++)
-			{
-				cout << nums[i] << "\t" ;
-			}
-			cout << "\n";
-			//clear vector
-			nums.clear();
-			counter = 0;
+		case 0:
+			cout << "INPUT FIRST NUMBER" << endl;
+			cin >> num1;
+
+			cout << "INPUT SECOND NUMBER" << endl;
+			cin >> num2;
+			break;
+
+		default:
+			break;
 		}
-		else
-		{
-			cout << "Input  " << str[counter] << "  Number" << endl;
-			cin >> temp;
-			// TODO : fix, if condition is not working 
-			if (temp.compare("|")) // if temp is "|"
-			{
-				exit(-1);
-			}
-			else //if temp is not "|"
-			{
-				// change string into int
-				num = StrToInt(temp);
-				//save it to 2 sized vector 
-				nums[counter] = num;
-			}
-			counter++;
-		}
+		 
+	 
+
+		PrintResult(num1, num2);
 	}
-	return 0;
 }
 
-int StrToInt(string temp)
+
+void PrintResult(int num1, int num2)
 {
-	const char* first = temp.c_str();
-	int digit = temp.size()-1;
-	int num = 0;
-	for (int i = 0; i < temp.size(); i++)
+	int larger = max(num1, num2);
+	int smaller = min(num1, num2);
+
+	if (larger == smaller)
 	{
-		if (48 <= *(first + i) && *(first + i) <= 57)
-		{
-			num += pow(10, digit) * ( (*(first + i) - 48));
-			digit--;
-		}
-		else if (temp == "|")
-		{
-			return '|';
-		}
+		cout << "NUMBERS ARE SAME" << endl;
 	}
-	return num;
+	else
+	{
+		cout << "LARGER : " << larger << endl;
+		cout << "SMALLER : " << smaller << endl;
+	}
+
+	cout << endl;
 }
+
+void ExitOnGivenCondition(int num)
+{
+	if (cin.fail())
+	{
+		if (cin.get() == '|')
+		{
+			cout << "조건에 따라 프로그램을 종료합니다. " << endl;
+			exit(-1);
+		}
+		else
+			cin.clear();
+	}
+}
+ 
+ 
