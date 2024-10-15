@@ -1,63 +1,112 @@
 #include "std_lib_facilities.h"
-void PrintResult(int num1, int num2);
-void ExitOnGivenCondition(int num);
- 
+#define SWAP(x,t,y) (t = x , x = y , y = t) 
+#define MAX_UNIT_ARR 2
+string ChangeUnit(double num, string unit);
+double ChangeNumber(double num, string unit);
+
 int main()
 {
-	int num1 = 0, num2 = 0,toggle =0;
-	
-	while (1)
+	vector<double> nums;
+	string unit_arr[MAX_UNIT_ARR] ;
+	double num=0,sum=0,temp=0;
+	int i = 0;
+	string unit;
+	bool isFirstTime = true;
+	while (cin >> num)
 	{
-		switch (toggle)
+		if (cin.fail())
 		{
-		case 0:
-			cout << "INPUT FIRST NUMBER" << endl;
-			cin >> num1;
+			getline(cin, unit);
+			if (unit == "cm" || unit == "m" || unit == "in" || unit == "ft")
+			{
+				temp = num;
+				sum += num;
+				num = ChangeNumber(num, unit);
+				unit = ChangeUnit(temp, unit);
+				cout << num << unit << endl;
+				unit_arr[i] = unit;
+				nums.push_back(num);
 
-			cout << "INPUT SECOND NUMBER" << endl;
-			cin >> num2;
-			break;
+				sort(nums);
 
-		default:
+				if (isFirstTime)
+				{
+					if (nums.size() >= 2)
+						cout << "THE SMALLEST SO FAR : " << nums[0] << unit_arr[0] << endl;
+					cout << "THE LARGEST SO FAR : " << nums[nums.size() - 1] << unit_arr[0] << endl;
+					isFirstTime = false;
+				}
+				else
+				{
+					cout << "THE SMALLEST SO FAR : " << nums[0] << unit_arr[0] << endl;
+					cout << "THE LARGEST SO FAR : " << nums[nums.size() - 1] << unit_arr[i] << endl;
+				}
+
+				i++;
+
+				if (i >= MAX_UNIT_ARR)
+				{
+					i = 0;
+					nums.clear();
+				}
+			}
+			else
+			{
+				cout << "WRONG INPUT" << endl;
+				sort(nums);
+				cout << "THE SMALLEST : " << nums[0] << endl;
+				cout << "THE LARGEST : " << nums[nums.size() - 1] << endl;
+				cout << "THE NUM OF VALUES : " << nums.size() - 1 << endl;
+				cout << "THE SUM OF VALUES : " << sum << endl;
+				break;
+			}
+		}
+		else
+		{
 			break;
 		}
-		 
-	 
-
-		PrintResult(num1, num2);
 	}
+	cout << "WRONG INPUT " << endl;
+	return 0;
 }
 
-
-void PrintResult(int num1, int num2)
+string ChangeUnit(double num,string unit)
 {
-	int larger = max(num1, num2);
-	int smaller = min(num1, num2);
-
-	if (larger == smaller)
+	if (unit == "cm" && num >= 100)
 	{
-		cout << "NUMBERS ARE SAME" << endl;
+		return (unit = "m");
+	}
+	else if (unit == "in" && num >= 1)
+	{
+		return (unit = "cm");
+	}
+	else if (unit == "ft" && num >= 1)
+	{
+		return (unit = "in");
 	}
 	else
 	{
-		cout << "LARGER : " << larger << endl;
-		cout << "SMALLER : " << smaller << endl;
+		return unit;
 	}
-
-	cout << endl;
 }
 
-void ExitOnGivenCondition(int num)
+double ChangeNumber(double num, string unit)
 {
-	if (cin.fail())
+	if (unit == "cm" && num >= 100)
 	{
-		if (cin.get() == '|')
-		{
-			cout << "조건에 따라 프로그램을 종료합니다. " << endl;
-			exit(-1);
-		}
-		else
-			cin.clear();
+		return (num/=100);
+	}
+	else if (unit == "in" && num >= 1)
+	{
+		return (num *= 2.54);
+	}
+	else if (unit == "ft" && num >= 1)
+	{
+		return (num *= 12);
+	}
+	else
+	{
+		return num;
 	}
 }
  
